@@ -19,7 +19,7 @@ app.use(express.json());
 
 // single endpoint to check if it works
 //app.get('/', (req, res) => res.send('API Running'));
-console.log(process.env.NODE_ENV);
+//console.log(process.env.NODE_ENV);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
