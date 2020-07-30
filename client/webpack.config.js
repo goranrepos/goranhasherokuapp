@@ -24,6 +24,17 @@ module.exports = {
         test: /\.html/,
         use: ['html-loader'],
       },
+      {
+        test: /\.s(a|c)ss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: { modules: true },
+          },
+          'sass-loader',
+        ],
+      },
     ],
   },
   plugins: [
