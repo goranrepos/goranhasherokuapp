@@ -1,0 +1,146 @@
+@function getUnit($value) {
+  @return str-slice($value * 0 + '', 2, -1);
+}
+
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  //Default font size on html element is 100%, equivalent to 16px;
+  @return #{$remSize}rem;
+}
+
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+@function unitless($var) {
+  @return $var / ($var - $var + 1);
+}
+
+// $base-font-size = html { font-size 100% or font-size:62.5% }
+@function getBaseFontPx($base-font-size: 62.5%) {
+  @return (($base-font-size * 16px)/100%);
+}
+
+//20rem = 320px & 90rem = 1200px
+@mixin fluid($property, $args...) {
+  //@return calc(2.25rem + (((100vw - 20rem) / (90 - 20))) * (4.75 - 2.25));
+  $min-breakpoint: 324px;
+  $med-breakpoint: 992px;
+  $max-breakpoint: 1200px;
+  $min: null;
+  $med: null;
+  $max: null;
+  @if length($args) < 2 {
+    @error "needs at least 2 min and max values in px or rem";
+  } @else if length($args) == 2 {
+    $min: nth($args, 1);
+    $max: nth($args, 2);
+  } @else if length($args) == 3 {
+    $min: nth($args, 1);
+    $med: nth($args, 2);
+    $max: nth($args, 3);
+  } @else if (length($args) == 4 or length($args) == 5) {
+    $min: nth($args, 1);
+    $max: nth($args, 2);
+    $min-breakpoint: nth($args, 3);
+    $max-breakpoint: nth($args, 4);
+  } @else if length($args) == 6 {
+    $min: nth($args, 1);
+    $med: nth($args, 2);
+    $max: nth($args, 3);
+    $min-breakpoint: nth($args, 3);
+    $med-breakpoint: nth($args, 4);
+    $max-breakpoint: nth($args, 5);
+  }
+
+  $min-breakpoint-unitless: unitless($min-breakpoint);
+  $med-breakpoint-unitless: unitless($med-breakpoint);
+  $max-breakpoint-unitless: unitless($max-breakpoint);
+  $base: px;
+
+  @if (getUnit($min) == 'rem') {
+    //@debug var(--fs);
+    $base: rem;
+    $min-breakpoint-unitless: $min-breakpoint / getBaseFontPx();
+    $med-breakpoint-unitless: $min-breakpoint / getBaseFontPx();
+    $max-breakpoint-unitless: $max-breakpoint / getBaseFontPx();
+  } @else if (getUnit($min) == 'em') {
+    $base: em;
+    $min-breakpoint-unitless: $min-breakpoint / getBaseFontPx();
+    $med-breakpoint-unitless: $min-breakpoint / getBaseFontPx();
+    $max-breakpoint-unitless: $max-breakpoint / getBaseFontPx();
+  } @else if (getUnit($min) == 'vw') {
+    $base: vw;
+    $min-breakpoint-unitless: $min-breakpoint / 10px;
+    $med-breakpoint-unitless: $min-breakpoint / 10px;
+    $max-breakpoint-unitless: $max-breakpoint / 10px;
+  }
+
+  #{$property}: $min;
+
+  @if ($med == null) {
+    @media (min-width: #{$min-breakpoint}) {
+      #{$property}: calc(
+        #{$min} + (
+            (
+              (100vw - #{$min-breakpoint-unitless}#{$base}) /
+                (#{$max-breakpoint-unitless} - #{$min-breakpoint-unitless})
+            )
+          ) * (#{unitless($max)} - #{unitless($min)})
+      );
+    }
+  } @else {
+    @media (min-width: #{$min-breakpoint}) {
+      #{$property}: calc(
+        #{$min} + (
+            (
+              (100vw - #{$min-breakpoint-unitless}#{$base}) /
+                (#{$med-breakpoint-unitless} - #{$min-breakpoint-unitless})
+            )
+          ) * (#{unitless($med)} - #{unitless($min)})
+      );
+    }
+    @media (min-width: #{$med-breakpoint}) {
+      #{$property}: calc(
+        #{$med} + (
+            (
+              (100vw - #{$med-breakpoint-unitless}#{$base}) /
+                (#{$max-breakpoint-unitless} - #{$med-breakpoint-unitless})
+            )
+          ) * (#{unitless($max)} - #{unitless($med)})
+      );
+    }
+  }
+
+  @media (min-width: #{$max-breakpoint}) {
+    #{$property}: $max;
+  }
+}
+
+// @mixin fluid-px(
+//   $property,
+//   $min,
+//   $max,
+//   $min-breakpoint: 320px,
+//   $max-breakpoint: 1200px
+// ) {
+//   #{$property}: $min;
+
+//   @media (min-width: #{$min-breakpoint}) {
+//     #{$property}: calc(
+//       #{$min} + (
+//           (
+//             (100vw - #{unitless($min-breakpoint)}px) /
+//               (#{unitless($max-breakpoint)} - #{unitless($min-breakpoint)})
+//           )
+//         ) * (#{unitless($max)} - #{unitless($min)})
+//     );
+//   }
+//   @media (min-width: #{$max-breakpoint}) {
+//     #{$property}: $max;
+//   }
+// }

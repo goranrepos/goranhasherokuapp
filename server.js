@@ -21,6 +21,10 @@ app.use(express.json());
 //app.get('/', (req, res) => res.send('API Running'));
 //console.log(process.env.NODE_ENV);
 
+// Define Routes
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
+
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   // Set static folder
@@ -30,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
   });
 } else {
-  app.get('/', (req, res) => res.send('API Running 2'));
+  //app.get('/', (req, res) => res.send('API Running 2'));
 }
 
 // if there is no env var (e.g. on Heroku) run it on 5000 locally

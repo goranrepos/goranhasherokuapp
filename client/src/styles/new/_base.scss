@@ -1,0 +1,105 @@
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: var(--base-font-size);
+  -ms-text-size-adjust: var(--base-font-size);
+  -webkit-text-size-adjust: var(--base-font-size);
+  overflow-y: scroll;
+
+  height: 100%;
+}
+
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+article,
+aside,
+footer,
+header,
+hgroup,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+html,
+body,
+button,
+input,
+table,
+td,
+th {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-size: $r;
+  line-height: $line-height-r;
+  //from gov.uk
+  -webkit-tap-highlight-color: transparent;
+  -ms-overflow-style: scrollbar;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  min-height: 100%;
+  height: 100%;
+}
+
+h1 {
+  font-weight: bold;
+  @include fluid('font-size', $m, $xxl);
+  @include fluid('line-height', $line-height-m, $line-height-xxl);
+  @include fluid('margin-bottom', $margin-bottom-m, $margin-bottom-xxl);
+
+  //font-size: 2.25rem;
+  //@include fluid('font-size', 2.25rem, 4.75rem);
+  //@include fluid('line-height', 1 * 2.25rem, 4 * 4.75rem);
+  //@include fluid('margin-left', 10px, 20px, 40px);
+  //@include fluid('margin-left', 10%, 40%);
+}
+
+h2 {
+  font-weight: 500;
+  @include fluid('font-size', $m, $xl);
+  @include fluid('line-height', $line-height-m, $line-height-xl);
+  @include fluid('margin-bottom', $margin-bottom-m, $margin-bottom-xl);
+  //@include fluid-font(($m-m, null, null, $xl-m));
+
+  //@include fluid((10px, null, 20px), 'margin-bottom');
+}
+
+h3 {
+  font-weight: 500;
+  @include fluid('font-size', $lr, $l);
+  @include fluid('line-height', $line-height-lr, $line-height-l);
+  @include fluid('margin-bottom', $margin-bottom-lr, $margin-bottom-l);
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  margin-bottom: $margin-bottom-m;
+}
+
+a {
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+}

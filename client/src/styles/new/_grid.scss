@@ -1,0 +1,113 @@
+// @function getvw() {
+//   @return calc(100vw - var(--scrollbar-width));
+// }
+
+// @function col-vw($col-num: 1) {
+//   //@return calc((#{getvw()} / 12) * (#{$col-num} * 7) + ((#{$col-num} -1) * 3));
+//   @return $deviceWidth/120 * (#{$col-num} * 7) + (($col-num - 1) * 3);
+// }
+
+@function new-width-vw($width-vw) {
+  @return calc(((100vw - var(--scrollbar-width)) / 100) * #{$width-vw});
+}
+
+@function get-col-vw($num-cols: 1) {
+  //@return calc((#{getvw()} / 12) * (#{$col-num} * 7) + ((#{$col-num} -1) * 3));
+  @return calc(
+    ((100vw - var(--scrollbar-width)) / 100) *
+      ((#{$num-cols} * 70 / 12) + ((#{$num-cols} - 1) * 30 / 12))
+  );
+}
+
+// 12-grid
+//$deviceWidth: getvw();
+//$col-vw: new-vw(5.8333);
+
+// provides the width of column in vw
+$col-vw: get-col-vw(1);
+$col-vw-5: get-col-vw(5);
+// provides gap in vw
+$gap-vw: new-width-vw(2.5);
+$side-vw: new-width-vw(1.25);
+
+@mixin grid-vw-12 {
+  grid-template-columns:
+    [bleed-end side-start] $side-vw
+    repeat(11, [col-start] $col-vw [col-end gap-start] $gap-vw [gap-end])
+    [col-start] $col-vw
+    [col-end side-start] $side-vw;
+  column-gap: 0;
+}
+
+//$side: minmax(4px, 15px);
+//$col: minmax(18, 70px);
+//$gap: minmax(9px, 30px);
+
+@mixin grid-px-12-bleed {
+  grid-template-columns:
+    [bleed-start] minmax(0, 1fr)
+    [bleed-end side-start] minmax(4px, 15px)
+    repeat(
+      11,
+      [col-start] minmax(18px, 70px) [col-end gap-start] minmax(9px, 30px)
+        [gap-end]
+    )
+    [col-start] minmax(18px, 70px)
+    [col-end side-start] minmax(4px, 15px)
+    [side-end bleed-start] minmax(0, 1fr) [bleed-end];
+  column-gap: 0;
+}
+
+//mixed grid vw and px
+@mixin grid-12-vw-px-bleed {
+  display: grid;
+  @include grid-vw-12;
+
+  @media (min-width: #{$wide}) {
+    @include grid-px-12-bleed();
+  }
+}
+/*
+@mixin grid-autofit-col-1-2-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  column-gap: $gap-vw;
+  row-gap: $gap-vw;
+
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(auto-fit, minmax($col-vw-5, 1fr));
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(auto-fit, minmax(73px, 370px));
+    row-gap: 30px;
+    column-gap: 30px;
+  }
+}
+*/
+/*
+@mixin grid-autofit-col-1 {
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+}
+*/
+
+/*
+@mixin grid-autofit-col-1-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  column-gap: $gap-vw;
+  row-gap: $gap-vw;
+
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(auto-fit, minmax($col-vw-5, 1fr));
+  }
+
+  @media (min-width: 1200px) {
+    //@include grid-px-12-bleed();
+    grid-template-columns: repeat(auto-fit, minmax(154px, 570px));
+    row-gap: 30px;
+    column-gap: 30px;
+  }
+  
+}
+*/
