@@ -51,7 +51,7 @@ th {
 body {
   background: var(--white);
   color: var(--black);
-  font-size: $r;
+  font-size: 160%;
   line-height: $line-height-r;
   //from gov.uk
   -webkit-tap-highlight-color: transparent;
@@ -65,7 +65,7 @@ body {
 
 h1 {
   font-weight: bold;
-  @include fluid('font-size', $m, $xxl);
+  @include fluid('font-size', 24px, 64px);
   @include fluid('line-height', $line-height-m, $line-height-xxl);
   @include fluid('margin-bottom', $margin-bottom-m, $margin-bottom-xxl);
 
