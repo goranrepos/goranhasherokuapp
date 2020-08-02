@@ -1,23 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import ScrollbarSize from 'react-scrollbar-size';
 
-class MyComponent extends Component {
+class Scrollbarsizer extends Component {
   scrollbarSizeLoad = (measurements) => {
     //console.log('Scrollbars loaded', measurements, measurements.scrollbarWidth);
-    if (measurements && measurements.scrollbarWidth) {
+    if (measurements && measurements.width) {
       document.documentElement.style.setProperty(
         '--scrollbar-width',
-        `${measurements.scrollbarWidth}px`
+        `${measurements.width}px`
       );
     }
   };
 
   scrollbarSizeChange = (measurements) => {
     //console.log('Scrollbars changed', measurements);
-    if (measurements && measurements.scrollbarWidth) {
+    if (measurements && measurements.width) {
+      //console.log('Scrollbars changed', measurements);
       document.documentElement.style.setProperty(
         '--scrollbar-width',
-        `${measurements.scrollbarWidth}px`
+        `${measurements.width}px`
       );
     }
   };
@@ -34,4 +35,4 @@ class MyComponent extends Component {
   }
 }
 
-export default MyComponent;
+export default Scrollbarsizer;

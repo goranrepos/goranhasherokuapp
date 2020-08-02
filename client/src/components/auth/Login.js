@@ -27,36 +27,41 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <h1 className=''>Sign In</h1>
-      <p className='lead'>Sign In Your Account</p>
-      <form className='form' onSubmit={onSubmit}>
-        <div className='form-group'>
-          <input
-            type='email'
-            placeholder='Email Address'
-            name='email'
-            value={email}
-            onChange={onChange}
-            required
-            autoComplete='username'
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='password'
-            placeholder='Password'
-            name='password'
-            value={password}
-            onChange={onChange}
-            minLength='6'
-            autoComplete='current-password'
-          />
-        </div>
-        <input type='submit' className='btn btn-primary' value='Login' />
-      </form>
-      <p className='my-1'>
-        Don't have an account? <Link to='/register'>Register</Link>
-      </p>
+      <section className='introduction'>
+        <h1 className='introduction__title'>Sign In</h1>
+
+        <p className='introduction__text'>Sign In Your Account</p>
+      </section>
+      <section className='login'>
+        <form className='login__form' onSubmit={onSubmit}>
+          <div className='login__formgroup'>
+            <input
+              type='email'
+              placeholder='Email Address'
+              name='email'
+              value={email}
+              onChange={onChange}
+              required
+              autoComplete='username'
+            />
+          </div>
+          <div className='login__formgroup'>
+            <input
+              type='password'
+              placeholder='Password'
+              name='password'
+              value={password}
+              onChange={onChange}
+              minLength='6'
+              autoComplete='current-password'
+            />
+          </div>
+          <input type='submit' className='btn btn-primary' value='Login' />
+        </form>{' '}
+        <p className='login__text'>
+          Don't have an account? <Link to='/register'>Register</Link>
+        </p>
+      </section>
     </Fragment>
   );
 };

@@ -107,3 +107,53 @@ a {
   font-family: 'Roboto', sans-serif;
   text-decoration: none;
 }
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  font-family: 'Roboto', sans-serif;
+  font-size: $r;
+  line-height: $line-height-r;
+
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border: 1px solid #bebebe;
+  padding: 7px;
+  margin: 0px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  outline: none;
+  width: 100%;
+  max-width: 300px;
+}
+
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus {
+  -moz-box-shadow: 0 0 8px #88d5e9;
+  -webkit-box-shadow: 0 0 8px #88d5e9;
+  box-shadow: 0 0 8px #88d5e9;
+  border: 1px solid #88d5e9;
+}
+
+input[type='submit'],
+input[type='button'] {
+  font-family: 'Roboto', sans-serif;
+  font-size: $r;
+  line-height: $line-height-r;
+
+  background: $blue-mariner;
+  padding: 8px 15px 8px 15px;
+  border: none;
+  color: #fff;
+}
+input[type='submit']:hover,
+input[type='button']:hover {
+  background: $blue-madison;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}

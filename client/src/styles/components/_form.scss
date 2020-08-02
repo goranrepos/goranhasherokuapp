@@ -1,0 +1,28 @@
+.register,
+.login {
+  background-color: var(--grey-alabaster);
+
+  @include grid-12-vw-px-bleed;
+  @include fluid('padding-top', $space-m, $space-xxl);
+  @include fluid('padding-bottom', $space-m, $space-xxl);
+
+  &__form {
+    grid-row: 1/2;
+    grid-column: col-start 2 / col-end 11;
+
+    @include fluid('margin-bottom', $space-r, $space-l);
+  }
+
+  &__text {
+    @include fluid('font-size', $r, $lr);
+    @include fluid('line-height', $line-height-r, $line-height-lr);
+
+    grid-row: 2/3;
+    grid-column: col-start 2 / col-end 11;
+    margin-bottom: 0;
+  }
+
+  &__formgroup {
+    @include fluid('padding-bottom', $space-r, $space-m);
+  }
+}

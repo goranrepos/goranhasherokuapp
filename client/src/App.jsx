@@ -7,8 +7,13 @@ import setAuthToken from './utils/setAuthToken';
 
 //components
 import Home from 'components/layout/Home';
-import MyComponent from 'components/utils/ScrollBarSize';
+import Scrollbarsizer from 'components/utils/ScrollBarSize';
 import Header from 'components/layout/Header';
+import Alert from 'components/layout/Alert';
+import Login from 'components/auth/Login';
+import Register from 'components/auth/Register';
+import Dashboard from 'components/dashboard/Dashboard';
+import PrivateRoute from 'components/routing/PrivateRoute';
 //images
 import SiteLogo from './assets/svgs/gn-logo.svg';
 
@@ -22,9 +27,14 @@ const App = () => {
       <Router>
         <Fragment>
           <Header />
+          <Alert />
           <div className='content'>
+            <Scrollbarsizer />
             <Switch>
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/register' component={Register} />
               <Route exact path='/' component={Home} />
+              <PrivateRoute exact path='/dashboard' component={Dashboard} />
             </Switch>
           </div>
           <footer>

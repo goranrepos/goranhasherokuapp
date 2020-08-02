@@ -7,7 +7,7 @@ import { logout } from 'actions/auth';
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <ul className='nav__ul'>
-      <li className='nav__li'>
+      {/* <li className='nav__li'>
         <Link className='nav__link' to='/about'>
           About
         </Link>
@@ -16,7 +16,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link className='nav__link' to='resources'>
           Resources
         </Link>
-      </li>
+      </li> */}
       <li>
         <a onClick={logout} href='#!'>
           Logout
@@ -27,7 +27,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const guestLinks = (
     <ul className='nav__ul'>
-      <li className='nav__li'>
+      {/* <li className='nav__li'>
         <Link className='nav__link' to='/about'>
           About
         </Link>
@@ -36,7 +36,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <Link className='nav__link' to='resources'>
           Resources
         </Link>
-      </li>
+      </li> */}
       <li className='nav__li'>
         <Link className='nav__link' to='login'>
           Login

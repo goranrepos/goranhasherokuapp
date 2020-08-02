@@ -22,6 +22,10 @@ router.post(
       'password',
       'Please enter a password with 6 or more characters'
     ).isLength({ min: 6 }),
+    check('pincode', 'Please provide valid pincode').equals('L0nd@n9Zz4f'),
+    check('password2', "Passwords Don't Match")
+      .exists()
+      .custom((value, { req }) => value === req.body.password),
   ],
   //async because of await in front of the User.findone
   async (req, res) => {
