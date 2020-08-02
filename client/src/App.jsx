@@ -9,7 +9,6 @@ import setAuthToken from './utils/setAuthToken';
 import Home from 'components/layout/Home';
 import Scrollbarsizer from 'components/utils/ScrollBarSize';
 import Header from 'components/layout/Header';
-import Alert from 'components/layout/Alert';
 import Login from 'components/auth/Login';
 import Register from 'components/auth/Register';
 import Dashboard from 'components/dashboard/Dashboard';
@@ -27,7 +26,6 @@ const App = () => {
       <Router>
         <Fragment>
           <Header />
-          <Alert />
           <div className='content'>
             <Scrollbarsizer />
             <Switch>

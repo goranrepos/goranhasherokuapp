@@ -1,8 +1,11 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
+import store from '../../store';
+import { setAlert, resetALerts } from '../../actions/alert';
+import Alert from 'components/layout/Alert';
 
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -25,6 +28,10 @@ const Login = ({ login, isAuthenticated }) => {
     return <Redirect to='/dashboard' />;
   }
 
+  useEffect(() => {
+    store.dispatch(resetALerts());
+  }, []);
+
   return (
     <Fragment>
       <section className='introduction'>
@@ -32,6 +39,7 @@ const Login = ({ login, isAuthenticated }) => {
 
         <p className='introduction__text'>Sign In Your Account</p>
       </section>
+      <Alert />
       <section className='login'>
         <form className='login__form' onSubmit={onSubmit}>
           <div className='login__formgroup'>

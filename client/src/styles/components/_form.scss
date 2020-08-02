@@ -26,3 +26,24 @@
     @include fluid('padding-bottom', $space-r, $space-m);
   }
 }
+
+.alert-danger {
+  background: var(--red-valencia);
+
+  @include grid-12-vw-px-bleed;
+  @include fluid('padding-top', $space-r, $space-m);
+  @include fluid('padding-bottom', $space-r, $space-m);
+
+  border-bottom: 2px solid #fff;
+
+  &__msg {
+    color: var(--white);
+
+    font-weight: 500;
+    @include fluid('font-size', $r, $lr);
+
+    grid-column: col-start 2 / col-end 11;
+
+    margin-bottom: 0;
+  }
+}

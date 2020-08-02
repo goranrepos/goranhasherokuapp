@@ -1,10 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { setAlert } from '../../actions/alert';
+import { setAlert, resetALerts } from '../../actions/alert';
 import { register } from '../../actions/auth';
+import store from '../../store';
+import Alert from 'components/layout/Alert';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -35,6 +37,10 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     return <Redirect to='/dashboard' />;
   }
 
+  useEffect(() => {
+    store.dispatch(resetALerts());
+  }, []);
+
   return (
     <Fragment>
       <section className='introduction'>
@@ -42,6 +48,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
         <p className='introduction__text'>Create Your Account</p>
       </section>
+      <Alert />
       <section className='register'>
         <form className='register__form' onSubmit={onSubmit}>
           <div className='register__formgroup'>
