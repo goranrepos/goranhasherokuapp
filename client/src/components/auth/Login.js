@@ -49,7 +49,6 @@ const Login = ({ login, isAuthenticated }) => {
               name='email'
               value={email}
               onChange={onChange}
-              required
               autoComplete='username'
             />
           </div>
