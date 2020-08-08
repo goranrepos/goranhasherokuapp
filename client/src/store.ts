@@ -1,12 +1,16 @@
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import thunk, { ThunkMiddleware } from 'redux-thunk';
 import rootReducer from './reducers';
 import setAuthToken from './utils/setAuthToken';
+import { AppActions } from './types/Alert';
+
+// ReturnType is typescript paramater that takes all types from rootReducer
+export type AppState = ReturnType<typeof rootReducer>;
 
 const initialState = {};
 
-const middleware = [thunk];
+const middleware = [thunk as ThunkMiddleware<AppState, AppActions>];
 
 const store = createStore(
   rootReducer,

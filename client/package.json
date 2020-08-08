@@ -22,6 +22,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.5",
+    "@types/uuid": "^8.0.1",
     "babel-loader": "^8.1.0",
     "css-loader": "^4.1.0",
     "file-loader": "^6.0.0",
