@@ -1,5 +1,6 @@
+import { Dispatch } from 'redux';
 import api from '../utils/api';
-import { setAlert } from './alert';
+import { startSetAlert } from './alert';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -8,8 +9,14 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-} from './types';
+  IUserData,
+  IAuthToken,
+  IAuth,
+} from '../types/Auth';
+import { AppActions } from 'types/Alert';
+import { AxiosResponse } from 'axios';
 
+/*
 // Load User
 export const loadUser = () => async (dispatch) => {
   try {
@@ -25,29 +32,38 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
+*/
+export const registerSuccess = (payload: IAuth) => ({
+  type: REGISTER_SUCCESS,
+  payload,
+});
 
 // Register User
-export const register = (formData) => async (dispatch) => {
-  try {
-    const res = await api.post('/users', formData);
+export const register = (userData: IUserData) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const res = await api.post<IAuth>('/users', userData);
 
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: res.data,
-    });
-    dispatch(loadUser());
-  } catch (err) {
-    const errors = err.response.data.errors;
+      dispatch(registerSuccess(res.data));
+      ////dispatch(loadUser());
+    } catch (err) {
+      const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      if (errors) {
+        errors.forEach((error:any) => { dispatch(startSetAlert(error.msg, 'danger'));return (
+        Promise.reject(error);
+        )});
+
+      }
+
+      dispatch({
+        type: REGISTER_FAIL,
+      });
     }
-
-    dispatch({
-      type: REGISTER_FAIL,
-    });
-  }
+  };
 };
+
+/*
 
 // Login User
 export const login = (email, password) => async (dispatch) => {
@@ -77,3 +93,4 @@ export const login = (email, password) => async (dispatch) => {
 
 // Logout
 export const logout = () => ({ type: LOGOUT });
+*/

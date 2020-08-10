@@ -8,7 +8,7 @@ import {
 } from '../types/Alert';
 import { Dispatch } from 'redux';
 
-export const setAlert = (payload: IAlert): AppActions => ({
+export const setAlert = (payload: IAlert) => ({
   type: SET_ALERT,
   payload,
 });
@@ -23,7 +23,7 @@ export const startSetAlert = (
   alertType: string,
   timeout: number = 55000
 ) => {
-  return (dispatch: Dispatch<AppActions>) => {
+  return (dispatch: Dispatch) => {
     const id = uuidv4();
     dispatch(setAlert({ msg, alertType, id }));
 
@@ -32,4 +32,4 @@ export const startSetAlert = (
 };
 
 // Logout
-export const resetALerts = (): AppActions => ({ type: REMOVE_ALERTS });
+export const resetALerts = () => ({ type: REMOVE_ALERTS });
