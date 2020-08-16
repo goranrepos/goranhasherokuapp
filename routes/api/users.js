@@ -10,6 +10,8 @@ const normalize = require('normalize-url');
 //models
 const User = require('../../models/User');
 
+const pincode = config.get('pincode');
+
 // @route    POST api/users
 // @desc     Register user
 // @access   Public
@@ -22,7 +24,7 @@ router.post(
       'password',
       'Please enter a password with 6 or more characters'
     ).isLength({ min: 6 }),
-    check('pincode', 'Please provide valid pincode').equals('L0nd@n9Zz4f'),
+    check('pincode', 'Please provide valid pincode').equals(pincode),
     check('password2', "Passwords Don't Match")
       .exists()
       .custom((value, { req }) => value === req.body.password),

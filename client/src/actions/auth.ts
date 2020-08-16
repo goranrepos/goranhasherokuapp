@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import api from '../utils/api';
-import { startSetAlert } from './alert';
+import { startSetAlert, resetAlerts } from './alert';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -10,50 +10,60 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   IUserData,
-  IAuthToken,
+  IUser,
   IAuth,
 } from '../types/Auth';
-import { AppActions } from 'types/Alert';
+import { AppActions } from 'types/actions';
 import { AxiosResponse } from 'axios';
+import { ThunkResult } from '../store';
 
-/*
 // Load User
-export const loadUser = () => async (dispatch) => {
-  try {
-    const res = await api.get('/auth');
+export const loadUser = (): ThunkResult<void> => {
+  return async (dispatch) => {
+    //console.log('load user');
+    try {
+      const res = await api.get<IUser>('/auth');
 
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: AUTH_ERROR,
-    });
-  }
+      //console.log(res);
+      dispatch({
+        type: USER_LOADED,
+        user: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  };
 };
-*/
-export const registerSuccess = (payload: IAuth) => ({
+
+export const registerSuccess = (payload: IAuth): AppActions => ({
   type: REGISTER_SUCCESS,
-  payload,
+  auth: payload,
 });
 
 // Register User
-export const register = (userData: IUserData) => {
-  return async (dispatch: Dispatch) => {
+export const register = (userData: IUserData): ThunkResult<void> => {
+  return async (dispatch) => {
     try {
       const res = await api.post<IAuth>('/users', userData);
+      //console.log('register user');
+      //console.log(res.data);
+      //dispatch(resetAlerts());
+      //dispatch(registerSuccess(res.data));
+      dispatch({
+        type: REGISTER_SUCCESS,
+        auth: res.data,
+      });
 
-      dispatch(registerSuccess(res.data));
-      ////dispatch(loadUser());
+      dispatch(loadUser());
     } catch (err) {
       const errors = err.response.data.errors;
 
       if (errors) {
-        errors.forEach((error:any) => { dispatch(startSetAlert(error.msg, 'danger'));return (
-        Promise.reject(error);
-        )});
-
+        errors.forEach((error: any) =>
+          dispatch(startSetAlert(error.msg, 'danger'))
+        );
       }
 
       dispatch({
@@ -63,34 +73,38 @@ export const register = (userData: IUserData) => {
   };
 };
 
-/*
-
 // Login User
-export const login = (email, password) => async (dispatch) => {
-  const body = { email, password };
+export const login = (email: string, password: string): ThunkResult<void> => {
+  return async (dispatch) => {
+    //console.log('login user');
 
-  try {
-    const res = await api.post('/auth', body);
+    const body = { email, password };
 
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data,
-    });
+    try {
+      const res = await api.post<IAuth>('/auth', body);
+      //console.log('login response');
+      //console.log(res.data);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        auth: res.data,
+      });
+      //console.log('loadUser');
+      dispatch(loadUser());
+    } catch (err) {
+      const errors = err.response.data.errors;
 
-    dispatch(loadUser());
-  } catch (err) {
-    const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error: any) =>
+          dispatch(startSetAlert(error.msg, 'danger'))
+        );
+      }
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      dispatch({
+        type: LOGIN_FAIL,
+      });
     }
-
-    dispatch({
-      type: LOGIN_FAIL,
-    });
-  }
+  };
 };
 
 // Logout
 export const logout = () => ({ type: LOGOUT });
-*/

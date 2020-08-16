@@ -1,14 +1,14 @@
 import axios from 'axios';
 import store from '../store';
 //import environment from 'environment';
-import { LOGOUT } from '../actions/types';
+import { LOGOUT } from '../types/Auth';
 
 //console.log(environment.api.baseUrl);
 
 const api = axios.create({
   //baseURL: environment.api.baseUrl,
-  // baseURL: 'http://localhost:5000/api',
-  baseURL: 'https://goranhas.herokuapp.com/api',
+  baseURL: 'http://localhost:5000/api',
+  //baseURL: 'https://goranhas.herokuapp.com/api',
   headers: {
     'Content-Type': 'application/json',
   },

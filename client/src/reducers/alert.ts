@@ -9,7 +9,7 @@ import {
 const initialState: IAlert[] = [];
 
 export default function (
-  state = initialState,
+  state: IAlert[] = initialState,
   action: AlertActionTypes
 ): IAlert[] {
   //const { type, payload } = action;

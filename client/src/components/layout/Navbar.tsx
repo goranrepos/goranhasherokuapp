@@ -3,8 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from 'actions/auth';
+import { AppState } from 'store';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppActions } from 'types/actions';
+import { bindActionCreators } from 'redux';
+import { IAuth } from '../../types/Auth';
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+interface IOwnProps {}
+
+type IProps = IOwnProps & mapStateToPropsI & mapDispatchToPropsI;
+
+const Navbar: React.FC<IProps> = ({ auth, logout }) => {
   const authLinks = (
     <ul className='nav__ul'>
       {/* <li className='nav__li'>
@@ -52,20 +61,31 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   return (
     <nav>
-      {!loading && (
-        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+      {/* {console.log('navbar')} */}
+      {!auth.loading && (
+        <Fragment>{auth.isAuthenticated ? authLinks : guestLinks}</Fragment>
       )}
     </nav>
   );
 };
 
-Navbar.propTypes = {
-  logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-};
+interface mapStateToPropsI {
+  auth: IAuth;
+}
 
-const mapStateToProps = (state) => ({
+interface mapDispatchToPropsI {
+  logout: () => void;
+}
+
+const mapStateToProps = (state: AppState) => ({
   auth: state.auth,
+});
+
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActions>,
+  ownProps: IOwnProps
+) => ({
+  logout: bindActionCreators(logout, dispatch),
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

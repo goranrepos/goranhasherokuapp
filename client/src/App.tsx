@@ -16,10 +16,15 @@ import PrivateRoute from 'components/routing/PrivateRoute';
 //images
 import SiteLogo from './assets/svgs/gn-logo.svg';
 
-const App = () => {
+interface IOwnProps {}
+
+type IProps = IOwnProps;
+
+const Apt: React.FC<IProps> = () => {
   useEffect(() => {
+    //console.log('call me');
     setAuthToken(localStorage.token);
-    store.dispatch(loadUser());
+    loadUser();
   }, []);
   return (
     <Provider store={store}>
@@ -51,4 +56,15 @@ const App = () => {
   );
 };
 
-export default App;
+// interface mapDispatchToPropsI {
+//   loadUser: () => void;
+// }
+
+// const mapDispatchToProps = (
+//   dispatch: ThunkDispatch<any, any, AppActions>,
+//   ownProps: IOwnProps
+// ) => ({
+//   loadUser: bindActionCreators(loadUser, dispatch),
+// });
+
+export default Apt;

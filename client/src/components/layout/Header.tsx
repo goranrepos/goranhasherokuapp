@@ -4,7 +4,7 @@ import SiteLogo from 'assets/svgs/gn-logo.svg';
 
 import Navbar from 'components/layout/Navbar';
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <header>
       <Link to='/' className='sitelogo'>

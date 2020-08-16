@@ -6,6 +6,12 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 
+// data types
+export interface IUserLoginData {
+  email: string;
+  password: string;
+}
+
 export interface IUserData {
   name: string;
   email: string;
@@ -14,13 +20,12 @@ export interface IUserData {
   pincode: string;
 }
 
-export interface IAuthToken {
-  token: string;
-}
-
-export interface IRegisterSuccess {
-  type: typeof REGISTER_SUCCESS;
-  payload: IAuth;
+export interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  date: string;
 }
 
 export interface IAuth {
@@ -30,4 +35,50 @@ export interface IAuth {
   user: object | null;
 }
 
-export type AuthActionTypes = IRegisterSuccess;
+// export interface IError {
+//   msg: string;
+//   param: string;
+//   location: string;
+// }
+
+// action types
+
+export interface IUserLoaded {
+  type: typeof USER_LOADED;
+  user: IUser;
+}
+
+export interface IRegisterSuccess {
+  type: typeof REGISTER_SUCCESS;
+  auth: IAuth;
+}
+
+export interface ILoginSuccess {
+  type: typeof LOGIN_SUCCESS;
+  auth: IAuth;
+}
+
+export interface IRegisterFail {
+  type: typeof REGISTER_FAIL;
+}
+
+export interface ILoginFail {
+  type: typeof LOGIN_FAIL;
+}
+
+export interface ILogOut {
+  type: typeof LOGOUT;
+}
+
+export interface IAuthError {
+  type: typeof AUTH_ERROR;
+}
+
+export type AuthActionTypes =
+  | IRegisterSuccess
+  | ILoginSuccess
+  | IRegisterFail
+  | ILoginFail
+  | ILogOut
+  | IUserLoaded
+  | IAuthError;

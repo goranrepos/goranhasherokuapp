@@ -3,11 +3,19 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
-import store from '../../store';
-import { setAlert, resetALerts } from '../../actions/alert';
+import store, { AppState } from '../../store';
+import { setAlert, resetAlerts } from '../../actions/alert';
 import Alert from 'components/layout/Alert';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppActions } from 'types/actions';
+import { bindActionCreators } from 'redux';
+import { IAuth } from '../../types/Auth';
 
-const Login = ({ login, isAuthenticated }) => {
+interface IOwnProps {}
+
+type IProps = IOwnProps & mapStateToPropsI & mapDispatchToPropsI;
+
+const Login: React.FC<IProps> = ({ login, resetAlerts, auth }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -15,22 +23,24 @@ const Login = ({ login, isAuthenticated }) => {
 
   const { email, password } = formData;
 
-  const onChange = (e) =>
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Success');
+    resetAlerts();
+    //console.log('Login Success');
     login(email, password);
   };
 
-  if (isAuthenticated) {
+  useEffect(() => {
+    //console.log('Login:resetALerts');
+    resetAlerts();
+  }, []);
+
+  if (auth.isAuthenticated) {
     return <Redirect to='/dashboard' />;
   }
-
-  useEffect(() => {
-    store.dispatch(resetALerts());
-  }, []);
 
   return (
     <Fragment>
@@ -59,7 +69,7 @@ const Login = ({ login, isAuthenticated }) => {
               name='password'
               value={password}
               onChange={onChange}
-              minLength='6'
+              minLength={6}
               autoComplete='current-password'
             />
           </div>
@@ -73,16 +83,28 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
-};
+interface mapStateToPropsI {
+  auth: IAuth;
+}
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+interface mapDispatchToPropsI {
+  login: (email: string, password: string) => void;
+  resetAlerts: () => void;
+}
+
+const mapStateToProps = (state: AppState) => ({
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActions>,
+  ownProps: IOwnProps
+) => ({
+  resetAlerts: bindActionCreators(resetAlerts, dispatch),
+  login: bindActionCreators(login, dispatch),
+});
+
+export default connect(mapStateToProps, { login, resetAlerts })(Login);
 
 /*
 import React, { Fragment } from 'react';

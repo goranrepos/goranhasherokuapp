@@ -1,14 +1,25 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import { setAlert, resetALerts } from '../../actions/alert';
+import { resetAlerts, startSetAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
-import store from '../../store';
+import store, { AppState } from '../../store';
 import Alert from 'components/layout/Alert';
+import { ThunkDispatch } from 'redux-thunk';
+import { AppActions } from 'types/actions';
+import { bindActionCreators } from 'redux';
+import { IUserData, IAuth } from '../../types/Auth';
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+interface IOwnProps {}
+
+type IProps = IOwnProps & mapStateToPropsI & mapDispatchToPropsI;
+
+const Register: React.FC<IProps> = ({
+  startSetAlert,
+  register,
+  resetAlerts,
+  auth,
+}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,11 +30,12 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   const { name, email, password, password2, pincode } = formData;
 
-  const onChange = (e) =>
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    resetAlerts();
     if (password !== password2) {
       //console.log(22);
       startSetAlert('Passwords do not match', 'danger');
@@ -33,16 +45,18 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     }
   };
 
-  if (isAuthenticated) {
+  useEffect(() => {
+    //console.log('Register:resetALerts');
+    resetAlerts();
+  }, []);
+
+  if (auth.isAuthenticated) {
     return <Redirect to='/dashboard' />;
   }
 
-  useEffect(() => {
-    store.dispatch(resetALerts());
-  }, []);
-
   return (
     <Fragment>
+      {/* {console.log('register')} */}
       <section className='introduction'>
         <h1 className='introduction__title'>Register</h1>
 
@@ -111,17 +125,34 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   );
 };
 
-Register.propTypes = {
-  setAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
-};
+interface mapStateToPropsI {
+  auth: IAuth;
+}
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+interface mapDispatchToPropsI {
+  startSetAlert: (msg: string, alertType: string, timeout?: number) => void;
+  register: (userData: IUserData) => void;
+  resetAlerts: () => void;
+}
+
+const mapStateToProps = (state: AppState, ownProps: IOwnProps) => ({
+  auth: state.auth,
 });
 
-export default connect(mapStateToProps, { setAlert, register })(Register);
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActions>,
+  ownProps: IOwnProps
+) => ({
+  startSetAlert: bindActionCreators(startSetAlert, dispatch),
+  register: bindActionCreators(register, dispatch),
+  resetAlerts: bindActionCreators(resetAlerts, dispatch),
+});
+
+export default connect(mapStateToProps, {
+  startSetAlert,
+  register,
+  resetAlerts,
+})(Register);
 
 /*
 import React, { Fragment } from 'react';

@@ -9,7 +9,11 @@ import DHHS from 'assets/svgs/dhhs.svg';
 import NOBImg from 'assets/svgs/nob.svg';
 import GNImg from 'assets/svgs/gn-logo-color.svg';
 
-const Home = () => (
+interface IOwnProps {}
+
+type IProps = IOwnProps;
+
+const Home: React.FC<IProps> = () => (
   <Fragment>
     <section className='introduction'>
       <h1 className='introduction__title'>
