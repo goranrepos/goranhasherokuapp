@@ -7,8 +7,8 @@ import { LOGOUT } from '../types/Auth';
 
 const api = axios.create({
   //baseURL: environment.api.baseUrl,
-  //baseURL: 'http://localhost:5000/api',
-  baseURL: 'https://goranhas.herokuapp.com/api',
+  baseURL: 'http://localhost:5000/api',
+  //baseURL: 'https://goranhas.herokuapp.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
