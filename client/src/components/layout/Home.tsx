@@ -43,10 +43,10 @@ const Home: React.FC<IProps> = () => (
           <h3 className='skills__subtitle-frontend'>Front-End Development</h3>
           <p className='skills__text-frontend'>
             I like to develop small and large innovative projects using modern
-            HTML, CSS, Javascript, SASS, LESS, Susy, Jquery, Json, PHP, Drupal
-            7/8, React, Redux and various debug and plugin tools. I also have an
-            experience of (RESTful) API integration and data integration such as
-            Google Firebase and MySQL.
+            HTML, CSS, Javascript, SASS, LESS, Susy, Material UI, Semantic UI,
+            Jquery, Json, PHP, Drupal 7/8, React, Redux and various debug and
+            plugin tools. I also have an experience of (RESTful) API integration
+            and data integration such as Google Firebase and MySQL.
           </p>
         </div>
         <div className='skills__box-ux'>
